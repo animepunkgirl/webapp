@@ -10,7 +10,7 @@ import {ShareService} from "./share.service";
   path: 'feed'
 })
 export class FeedController {
-  constructor(private feedService: FeedService, private shareSerivce: ShareService) {}
+  constructor(private feedService: FeedService, private shareService: ShareService) {}
 
   @Auth()
   @Get('/')
@@ -30,6 +30,6 @@ export class FeedController {
     if (!post)
       throw new HttpException("Wrong data", HttpStatus.BAD_REQUEST);
 
-    await this.shareSerivce.shareMessage(user.chat_id, post);
+    await this.shareService.shareMessage(user.chat_id, post);
   }
 }

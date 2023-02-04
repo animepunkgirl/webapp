@@ -20,22 +20,29 @@ export class ShareService {
         }
     }
 
-    private async shareSingleMessage(chatId: User["chat_id"], attachment: UnionAttachment)  {
-        if (attachment.type === AttachmentType.Text)
+    private async shareSingleMessage(chatId: User["chat_id"], attachment: UnionAttachment): Promise<void>  {
+        if (attachment.type === AttachmentType.Text) {
             await this.botService.sendMessage(chatId, attachment.text);
+            return
+        }
 
-        if (attachment.type === AttachmentType.Image)
+        if (attachment.type === AttachmentType.Image) {
             await this.botService.sendPhoto(chatId, attachment.image_url);
+            return
+        }
 
         if (attachment.type === AttachmentType.Video) {
-            let caption
+            let caption;
             if (attachment.title)
                 caption = this.getVideoLink(attachment.title, attachment.player_url);
             await this.botService.sendPhoto(chatId, attachment.preview_url, {caption, parse_mode: "HTML"});
+            return
         }
 
-        if (attachment.type === AttachmentType.File)
-            await this.botService.sendDocument(chatId, attachment.file_url)
+        if (attachment.type === AttachmentType.File) {
+            await this.botService.sendDocument(chatId, attachment.file_url);
+            return
+        }
     }
 
     private async shareComplexMessage(chatId: User["chat_id"], attachments: UnionAttachment[]) {
