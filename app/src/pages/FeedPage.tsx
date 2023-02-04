@@ -7,7 +7,7 @@ import NoConnectedPage from "./NoConnectedPage";
 const FeedPage = () => {
   const isConnected = useRecoilValue(isConnectedState)
 
-  if(isConnected)
+  if(!isConnected)
     return <NoConnectedPage />
 
   return <Feed />

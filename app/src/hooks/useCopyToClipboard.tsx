@@ -1,19 +1,16 @@
-import React, {useCallback, useContext} from 'react';
-import toastContext from "../contexts/ToastContext";
+import React, {useCallback} from 'react';
+import useToast from "../ui/Toast/Toast";
 
 const useCopyToClipboard = (text: string) => {
-  const toast = useContext(toastContext)
+  const toast = useToast()
 
-  const copy = useCallback(async () => {
-    toast('Command copied to clipboard')
-
-    if(!navigator || !window.isSecureContext)
+  return useCallback(async () => {
+    if (!navigator || !window.isSecureContext)
       return;
 
     await navigator.clipboard.writeText(text)
-  }, [window, navigator])
-
-  return copy;
+    toast('Command copied to clipboard')
+  }, [window, navigator]);
 };
 
 export default useCopyToClipboard;
