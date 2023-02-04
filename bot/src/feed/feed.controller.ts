@@ -1,16 +1,16 @@
-import {Body, Controller, Get, Param, Post, Scope} from '@nestjs/common';
+import {Body, Controller, Get, HttpException, HttpStatus, Param, Post, Scope} from '@nestjs/common';
 import {FeedService} from "./feed.service";
 import {FeedDto} from "./dto/feed.dto";
-import {Post as PostType} from "../feed/types/post.types"
-import {BotService} from "../bot/bot.service";
 import {Auth, Me} from "../guards/auth.guard";
 import {User} from "../schemas/user.schema";
+import {ShareDto} from "./dto/share.dto";
+import {ShareService} from "./share.service";
 
 @Controller({
   path: 'feed'
 })
 export class FeedController {
-  constructor(private feedService: FeedService, private botService: BotService) {}
+  constructor(private feedService: FeedService, private shareSerivce: ShareService) {}
 
   @Auth()
   @Get('/')
@@ -26,8 +26,10 @@ export class FeedController {
 
   @Auth()
   @Post('/share')
-  async share(@Me() user: User, @Body() post: PostType) {
-    const message = 'IN_PROGRESS: POST_SHARED' // TODO: Generate message from post
-    await this.botService.sendMessage(user.chat_id, message)
+  async share(@Me() user: User, @Body() {post}: ShareDto) {
+    if (!post)
+      throw new HttpException("Wrong data", HttpStatus.BAD_REQUEST);
+
+    await this.shareSerivce.shareMessage(user.chat_id, post);
   }
 }

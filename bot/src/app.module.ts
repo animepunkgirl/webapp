@@ -5,7 +5,6 @@ import {BotModule} from "./bot/bot.module";
 import {MongooseModule} from "@nestjs/mongoose";
 import {UserModule} from "./user/user.module";
 import {CoreModule} from "./core.module";
-import {LoggerModule} from "./helpers/logger/logger.module";
 import {BotBootstrapModule} from "./bot/bootstrap/bootstrap.module";
 
 @Module({

@@ -2,7 +2,6 @@ import {Injectable, Scope} from "@nestjs/common";
 import {VkService} from "../integrations/vk/vk.service";
 import {FeedDto} from "./dto/feed.dto";
 import {JwtService} from "@nestjs/jwt";
-import {Post} from "./types/post.types";
 import {User} from "../schemas/user.schema";
 
 @Injectable({ scope: Scope.REQUEST })
@@ -23,11 +22,6 @@ export class FeedService {
       items: vkFeed.posts,
       offset_key
     }
-  }
-
-  // TODO: Converting post to message
-  convertPostToMessage(post: Post): string {
-    return 'NOTHING'
   }
 
   private signOffset(offset: string): string {

@@ -1,9 +1,7 @@
 import {Command} from "./command";
-import TelegramBot from "node-telegram-bot-api";
 import {Injectable} from "@nestjs/common";
 import {BotService} from "../bot.service";
 import {UserService} from "../../user/user.service";
-import {VkService} from "../../integrations/vk/vk.service";
 import {MetaMessage} from "../bot.types";
 import {ConfigService} from "@nestjs/config";
 

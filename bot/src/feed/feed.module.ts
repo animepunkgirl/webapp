@@ -4,11 +4,11 @@ import {FeedController} from "./feed.controller";
 import {UserModule} from "../user/user.module";
 import {BotModule} from "../bot/bot.module";
 import {FeedService} from "./feed.service";
-
+import {ShareService} from "./share.service";
 
 @Module({
   imports: [UserModule, BotModule, FeedModule],
-  providers: [FeedService, VkService],
+  providers: [FeedService, ShareService, VkService],
   controllers: [FeedController]
 })
 export class FeedModule {}
