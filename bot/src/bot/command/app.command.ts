@@ -1,5 +1,4 @@
 import {Command} from "./command";
-import TelegramBot from "node-telegram-bot-api";
 import {Injectable} from "@nestjs/common";
 import {BotService} from "../bot.service";
 import {ConfigService} from "@nestjs/config";

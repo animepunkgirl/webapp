@@ -1,7 +1,7 @@
-import {Injectable, Scope} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import * as TelegramBot from "node-telegram-bot-api";
-
-type Listener = (message: TelegramBot.Message, metadata: TelegramBot.Metadata) => void
+import {Stream} from "stream";
+import {MessageListener} from "./bot.types";
 
 @Injectable()
 export class BotService {
@@ -14,7 +14,7 @@ export class BotService {
     this.bot = bot;
   }
 
-  addMessageListener(callback: Listener) {
+  addMessageListener(callback: MessageListener) {
     this.bot.on('message', (message, metadata) => {
       callback(message, metadata)
     })
@@ -26,5 +26,29 @@ export class BotService {
       options?: TelegramBot.SendMessageOptions,
   ): Promise<TelegramBot.Message> {
     return this.bot.sendMessage(chatId, text, options)
+  }
+
+  async sendPhoto(chatId: TelegramBot.ChatId,
+                  photo: string | Stream | Buffer,
+                  options?: TelegramBot.SendPhotoOptions,
+                  fileOptions?: TelegramBot.FileOptions): Promise<TelegramBot.Message> {
+    return this.bot.sendPhoto(chatId, photo, options, fileOptions);
+  }
+
+  async sendDocument(
+      chatId: TelegramBot.ChatId,
+      doc: string | Stream | Buffer,
+      options?: TelegramBot.SendDocumentOptions,
+      fileOptions?: TelegramBot.FileOptions,
+  ): Promise<TelegramBot.Message> {
+    return this.bot.sendDocument(chatId, doc, options, fileOptions);
+  }
+
+  async sendMediaGroup(
+      chatId: TelegramBot.ChatId,
+      media: ReadonlyArray<TelegramBot.InputMedia>,
+      options?: TelegramBot.SendMediaGroupOptions,
+  ): Promise<TelegramBot.Message> {
+    return await this.bot.sendMediaGroup(chatId, media, options);
   }
 }
