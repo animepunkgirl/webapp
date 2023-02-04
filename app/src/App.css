@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.post-swiper {
+    --swiper-theme-color: var(--tg-theme-link-color)
+}
+.post-swiper .swiper-pagination-fraction {
+    font-size: 13px;
+    height: 13px;
+}
+/*
+    TODO: Make prettier
+ */
+.post-swiper .swiper-pagination-fraction .swiper-pagination-current {
+    position: relative;
+}
+.post-swiper .swiper-pagination-fraction .swiper-pagination-current::before  {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -35%);
+    width: calc(100% + 12px);
+    height: 14px;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+    border-top-left-radius: 25%;
+    border-bottom-left-radius: 25%;
+}
+
+.post-swiper .swiper-pagination-fraction .swiper-pagination-total {
+    position: relative;
+}
+.post-swiper .swiper-pagination-fraction .swiper-pagination-total::before  {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -35%);
+    width: calc(100% + 12px);
+    height: 14px;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+    border-top-right-radius: 25%;
+    border-bottom-right-radius: 25%;
+}
