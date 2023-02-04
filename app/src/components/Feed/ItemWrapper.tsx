@@ -11,12 +11,14 @@ interface Props {
 const ItemWrapper = forwardRef(({ children, item }: Props, ref: ForwardedRef<HTMLDivElement>) => {
 
   return (
-    <div className='bg-background -mx-2' ref={ref}>
-      <div className='p-2 flex items-center justify-between gap-2'>
+    <div className='-mx-2' ref={ref}>
+      <div className='p-2 md:px-4 flex items-center justify-between gap-2'>
         <Author author={item.meta.author} />
         <Share item={item} />
       </div>
-      {children}
+      <div className='md:p-4 md:pt-2'>
+        {children}
+      </div>
     </div>
   );
 });

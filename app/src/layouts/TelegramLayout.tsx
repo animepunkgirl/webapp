@@ -23,10 +23,10 @@ const TelegramLayout = () => {
   }, [isConnected])
 
   return (
-    <div className='container bg-secondary min-h-screen text-primary p-2 relative'>
+    <>
       <Outlet />
       <Toast />
-    </div>
+    </>
   );
 };
 
