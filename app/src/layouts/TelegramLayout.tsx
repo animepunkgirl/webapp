@@ -3,18 +3,19 @@ import telegramContext from "../contexts/TelegramContext";
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
 import {useRecoilValue} from "recoil";
 import {isConnectedState} from "../store/user";
-import {ToastProvider} from "../contexts/ToastContext";
+import {Toast} from "../ui/Toast/Toast";
 
 const TelegramLayout = () => {
   const telegram = useContext(telegramContext)
   const isConnected = useRecoilValue(isConnectedState)
-  const location = useLocation()
   const navigate = useNavigate()
 
   useEffect(() => {
-    // telegram.ready()
-    // telegram.BackButton.show()
-    // telegram.BackButton.onClick(() => navigate(-1))
+    if(import.meta.env.PROD) {
+      telegram.ready()
+      telegram.BackButton.show()
+      telegram.BackButton.onClick(() => navigate(-1))
+    }
   }, [telegram])
 
   useEffect(() => {
@@ -22,11 +23,10 @@ const TelegramLayout = () => {
   }, [isConnected])
 
   return (
-    <ToastProvider>
-      <div className='container bg-secondary min-h-screen text-primary p-2 relative'>
-        <Outlet />
-      </div>
-    </ToastProvider>
+    <div className='container bg-secondary min-h-screen text-primary p-2 relative'>
+      <Outlet />
+      <Toast />
+    </div>
   );
 };
 
