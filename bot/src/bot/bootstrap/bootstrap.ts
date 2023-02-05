@@ -6,6 +6,7 @@ import {ConfigService} from "@nestjs/config";
 import {Logger} from "../../helpers/logger/logger.service";
 import * as TelegramBot from "node-telegram-bot-api";
 import {MetaMessage} from "../bot.types";
+import {Callback} from "../callback/callback";
 
 
 @Injectable()
@@ -13,6 +14,7 @@ export class BotBootstrap implements OnApplicationBootstrap {
   constructor(
     private botService: BotService,
     @Inject('Commands') private commands: Command[],
+    @Inject('Callbacks') private callbacks: Callback[],
     private incorrectCommand: IncorrectCommand,
     private configService: ConfigService,
     private logger: Logger
@@ -43,6 +45,14 @@ export class BotBootstrap implements OnApplicationBootstrap {
           return await command.handle(metaMessage);
       }
       await this.incorrectCommand.handle(metaMessage);
+    })
+
+    this.botService.addCallbackQueryListener(async (callback_query) => {
+      this.logger.debug(callback_query)
+      for await (const callback of this.callbacks) {
+        if(callback.isMatching(callback_query))
+          return await callback.handle(callback_query)
+      }
     })
   }
 }

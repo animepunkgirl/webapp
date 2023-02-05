@@ -1,6 +1,6 @@
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 import {HydratedDocument, Types} from "mongoose";
-import {User} from "./user.schema";
+import {User, UserDocument} from "./user.schema";
 
 export type FriendRequestDocument = HydratedDocument<FriendRequest>
 
@@ -8,11 +8,11 @@ export type FriendRequestDocument = HydratedDocument<FriendRequest>
 export class FriendRequest {
   /* Friend request sender */
   @Prop({ required: true, immutable: true, type: Types.ObjectId, ref: User.name })
-  from: User
+  from: UserDocument
 
   /* Friend request recipient */
   @Prop({ required: true, immutable: true, type: Types.ObjectId, ref: User.name })
-  to: User
+  to: UserDocument
 
   @Prop()
   createdAt: Date

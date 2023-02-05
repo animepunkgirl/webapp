@@ -6,6 +6,9 @@ import {UserModule} from "../../user/user.module";
 import {BotBootstrap} from "./bootstrap";
 import {IncorrectCommand} from "../command/incorrect.command";
 import {AddCommand} from "../command/add.command";
+import {FriendRequestModule} from "../../friend-requests/friend-request.module";
+import {NotificationsModule} from "../../notifications/notifications.module";
+import {RequestCallback} from "../callback/request.callback";
 
 const commands = [StartCommand, AppCommand, AddCommand]
 const commandsFactory: FactoryProvider = {
@@ -14,9 +17,28 @@ const commandsFactory: FactoryProvider = {
   inject: commands
 }
 
+const callbacks = [RequestCallback]
+const callbacksFactory: FactoryProvider = {
+  provide: 'Callbacks',
+  useFactory: (...args) => [...args],
+  inject: callbacks
+}
+
 @Module({
-  imports: [BotModule, UserModule],
-  providers: [BotBootstrap, ...commands, commandsFactory, IncorrectCommand],
-  exports: [...commands, commandsFactory]
+  imports: [BotModule, UserModule, FriendRequestModule, NotificationsModule],
+  providers: [
+    BotBootstrap,
+// @ts-ignore
+    ...commands,
+    // @ts-ignore
+    commandsFactory,
+    // @ts-ignore
+    IncorrectCommand,
+    // @ts-ignore
+    ...callbacks,
+    // @ts-ignore
+    callbacksFactory
+  ],
+  exports: [...commands, commandsFactory, ...callbacks, callbacksFactory]
 })
 export class BotBootstrapModule {}

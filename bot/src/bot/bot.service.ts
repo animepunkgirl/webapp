@@ -1,7 +1,7 @@
 import {Injectable} from '@nestjs/common';
 import * as TelegramBot from "node-telegram-bot-api";
 import {Stream} from "stream";
-import {MessageListener} from "./bot.types";
+import {CallbackQueryListener, MessageListener} from "./bot.types";
 
 @Injectable()
 export class BotService {
@@ -17,6 +17,12 @@ export class BotService {
   addMessageListener(callback: MessageListener) {
     this.bot.on('message', (message, metadata) => {
       callback(message, metadata)
+    })
+  }
+
+  addCallbackQueryListener(callback: CallbackQueryListener) {
+    this.bot.on('callback_query', (callback_query) => {
+      callback(callback_query)
     })
   }
 
@@ -54,5 +60,12 @@ export class BotService {
       options?: TelegramBot.SendMediaGroupOptions,
   ): Promise<TelegramBot.Message> {
     return await this.bot.sendMediaGroup(chatId, media, options);
+  }
+
+  async answerCallbackQuery(options: TelegramBot.AnswerCallbackQueryOptions): Promise<boolean> {
+    return await this.bot.answerCallbackQuery(options)
+  }
+
+  async deleteMessage() {
   }
 }
