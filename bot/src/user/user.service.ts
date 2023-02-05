@@ -92,6 +92,14 @@ export class UserService {
     }).exec()
   }
 
+  async deleteFriend(user: UserDocument, friendId: string): Promise<void> {
+    user.friends = user.friends.filter(friend => friend.chat_id.toString() !== friendId)
+    const friend = await this.getUserByChatId(parseInt(friendId))
+    friend.friends = friend.friends.filter(friend => friend.chat_id !== user.chat_id)
+    await user.save()
+    await friend.save()
+  }
+
   async updateUsername(chat_id: User["chat_id"]): Promise<void> {
     const user = await this.userModel.findOne({
       chat_id
