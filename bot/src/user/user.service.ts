@@ -58,10 +58,22 @@ export class UserService {
 
   async getUserByUsername(username: string): Promise<UserDocument | null> {
     try {
+      const user = await this.userModel.findOne({
+        username
+      }).exec()
+      if(user)
+        return user;
+
+      // If we can't find a user by his username, we assume it may be out of date.
+      // Then we search for usernames by chat id for all users and update them at same time.
       const users = await this.userModel.find().exec()
 
       for (const user of users) {
         const chat = await this.botService.getChat(user.chat_id)
+        if(user.username !== chat.username) {
+          user.username = chat.username
+          await user.save()
+        }
         if(chat.username === username)
           return user;
       }
