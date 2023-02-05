@@ -13,6 +13,10 @@ export class User {
   @Prop()
   access_token: string;
 
+  /* Telegram username of user !can be outdated! */
+  @Prop()
+  username: string;
+
   /* User friend list */
   @Prop({type: [Types.ObjectId], ref: User.name})
   friends: User[]

@@ -80,6 +80,21 @@ export class UserService {
     }).exec()
   }
 
+  async updateUsername(chat_id: User["chat_id"]): Promise<void> {
+    const user = await this.userModel.findOne({
+      chat_id
+    }).exec()
+    if(!user)
+      return;
+
+    const info = await this.botService.getChat(chat_id)
+    if(!info.username)
+      return;
+
+    user.username = info.username
+    await user.save()
+  }
+
   getJwtToken(chat_id: User["chat_id"]): JwtToken {
     return this.jwtService.sign(chat_id.toString())
   }

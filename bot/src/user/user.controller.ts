@@ -23,6 +23,9 @@ export class UserController {
 
     const user = await this.userService.getUserByChatId(data.user.id);
 
+    //Fire and forget
+    this.userService.updateUsername(data.user.id)
+
     return {
       init_data: data,
       token: this.userService.getJwtToken(user.chat_id),
