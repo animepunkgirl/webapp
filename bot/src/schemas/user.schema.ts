@@ -15,7 +15,7 @@ export class User {
 
   /* Telegram username of user !can be outdated! */
   @Prop()
-  username: string;
+  username?: string;
 
   /* User friend list */
   @Prop({type: [Types.ObjectId], ref: User.name})
