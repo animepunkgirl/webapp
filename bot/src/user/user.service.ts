@@ -72,6 +72,14 @@ export class UserService {
     }
   }
 
+  async getFriendsByIds(friends: User["friends"]): Promise<UserDocument[]> {
+    return await this.userModel.find({
+      '_id': {
+        $in: friends
+      }
+    }).exec()
+  }
+
   getJwtToken(chat_id: User["chat_id"]): JwtToken {
     return this.jwtService.sign(chat_id.toString())
   }

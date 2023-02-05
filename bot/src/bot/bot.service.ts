@@ -30,6 +30,10 @@ export class BotService {
     return await this.bot.getChat(chatId)
   }
 
+  async getFileLink(fileId: TelegramBot.File["file_id"]) {
+    return await this.bot.getFileLink(fileId)
+  }
+
   async sendMessage(
       chatId: TelegramBot.ChatId,
       text: string,
