@@ -1,4 +1,3 @@
-import TelegramBot from "node-telegram-bot-api";
 import {MetaMessage} from "../bot.types";
 
 export abstract class Command {
@@ -9,7 +8,7 @@ export abstract class Command {
 
     public abstract handle(msg: MetaMessage): Promise<void>;
 
-    public isMatching(msg: TelegramBot.Message): boolean {
+    public isMatching(msg: MetaMessage): boolean {
         return this.name === msg.text;
     }
 }
