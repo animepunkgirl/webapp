@@ -9,8 +9,9 @@ import {AddCommand} from "../command/add.command";
 import {FriendRequestModule} from "../../friend-requests/friend-request.module";
 import {NotificationsModule} from "../../notifications/notifications.module";
 import {RequestCallback} from "../callback/request.callback";
+import {FriendsCommand} from "../command/friends.command";
 
-const commands = [StartCommand, AppCommand, AddCommand]
+const commands = [StartCommand, AppCommand, AddCommand, FriendsCommand]
 const commandsFactory: FactoryProvider = {
   provide: 'Commands',
   useFactory: (...args) => [...args],
@@ -28,7 +29,7 @@ const callbacksFactory: FactoryProvider = {
   imports: [BotModule, UserModule, FriendRequestModule, NotificationsModule],
   providers: [
     BotBootstrap,
-// @ts-ignore
+    // @ts-ignore
     ...commands,
     // @ts-ignore
     commandsFactory,

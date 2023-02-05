@@ -31,7 +31,7 @@ export class UserService {
   async getUserByChatId(chat_id: User["chat_id"]): Promise<UserDocument> {
     const user = await this.userModel.findOne({
       chat_id
-    }).exec()
+    }).populate('friends').exec()
 
     if(!user)
       return this.createUser(chat_id)
