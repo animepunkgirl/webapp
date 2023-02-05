@@ -12,6 +12,7 @@ export class RequestCallback extends Callback {
     super();
   }
 
+  // TODO: Notify friend request sender
   async handle(callbackQuery: TelegramBot.CallbackQuery): Promise<void> {
     if(!callbackQuery.data)
       return;
@@ -24,16 +25,30 @@ export class RequestCallback extends Callback {
 
     if(action === 'accept') {
       await this.friendRequestService.accept(requestId)
-      await this.sendSuccessAcceptMessage(callbackQuery.id)
+      await this.sendAcceptedAnswer(callbackQuery.id)
     }
-    return Promise.resolve(undefined);
+    if(action === 'decline') {
+      await this.friendRequestService.decline(requestId)
+      await this.sendDeclinedAnswer(callbackQuery.id)
+    }
+    if(callbackQuery.message) {
+      await this.botService.deleteMessage(callbackQuery.from.id, callbackQuery.message.message_id.toString())
+    }
   }
 
   // TODO: Add username
-  async sendSuccessAcceptMessage(callback_query_id: TelegramBot.CallbackQuery["id"]) {
+  async sendAcceptedAnswer(callback_query_id: TelegramBot.CallbackQuery["id"]) {
     await this.botService.answerCallbackQuery({
       callback_query_id,
-      text: `You added #USERNAME# to your friend list!`
+      text: `You added #USERNAME# to your friend list!🥰`
+    })
+  }
+
+  // TODO: Add username
+  async sendDeclinedAnswer(callback_query_id: TelegramBot.CallbackQuery["id"]) {
+    await this.botService.answerCallbackQuery({
+      callback_query_id,
+      text: `You declined #USERNAME#'s request😔`
     })
   }
 }

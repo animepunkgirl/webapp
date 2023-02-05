@@ -36,4 +36,8 @@ export class FriendRequestService {
     await from.save();
     await friendRequest.remove();
   }
+
+  async decline(id: string) {
+    return this.friendRequestModel.findByIdAndDelete(id)
+  }
 }

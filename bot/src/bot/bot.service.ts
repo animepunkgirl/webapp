@@ -66,6 +66,7 @@ export class BotService {
     return await this.bot.answerCallbackQuery(options)
   }
 
-  async deleteMessage() {
+  async deleteMessage(chatId: TelegramBot.ChatId, messageId: string) {
+    return await this.bot.deleteMessage(chatId, messageId)
   }
 }
