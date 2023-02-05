@@ -39,7 +39,6 @@ export class BotBootstrap implements OnApplicationBootstrap {
       this.logger.debug(msg)
       const metaMessage: MetaMessage = {...msg, ...meta}
       for await (const command of this.commands) {
-        console.log(command)
         if(command.isMatching(metaMessage))
           return await command.handle(metaMessage);
       }

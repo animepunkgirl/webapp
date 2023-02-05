@@ -20,6 +20,10 @@ export class BotService {
     })
   }
 
+  async getChat(chatId: TelegramBot.ChatId) {
+    return await this.bot.getChat(chatId)
+  }
+
   async sendMessage(
       chatId: TelegramBot.ChatId,
       text: string,

@@ -7,6 +7,7 @@ import {InitData, JwtToken} from "./user.types"
 import {JwtService} from "@nestjs/jwt";
 import {ConfigService} from "@nestjs/config";
 import {Logger} from "../helpers/logger/logger.service";
+import {BotService} from "../bot/bot.service";
 
 @Injectable()
 export class UserService {
@@ -15,6 +16,7 @@ export class UserService {
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     private jwtService: JwtService,
     private configService: ConfigService,
+    private botService: BotService,
     private logger: Logger
   ) {}
 
@@ -48,6 +50,22 @@ export class UserService {
         return this.createUser(chat_id);
 
       return user;
+    } catch (e) {
+      console.log(e)
+      return null;
+    }
+  }
+
+  async getUserByUsername(username: string): Promise<UserDocument | null> {
+    try {
+      const users = await this.userModel.find().exec()
+
+      for (const user of users) {
+        const chat = await this.botService.getChat(user.chat_id)
+        if(chat.username === username)
+          return user;
+      }
+      return null;
     } catch (e) {
       console.log(e)
       return null;
