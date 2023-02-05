@@ -1,4 +1,5 @@
 import {MetaMessage} from "../bot.types";
+import {Module} from "@nestjs/common";
 
 export abstract class Command {
     protected constructor() {
