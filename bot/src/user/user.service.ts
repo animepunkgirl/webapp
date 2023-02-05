@@ -2,7 +2,7 @@ import {Injectable} from "@nestjs/common";
 import * as crypto from "crypto";
 import {InjectModel} from "@nestjs/mongoose";
 import {User, UserDocument} from "../schemas/user.schema";
-import {Model} from "mongoose";
+import {Model, Types} from "mongoose";
 import {InitData, JwtToken} from "./user.types"
 import {JwtService} from "@nestjs/jwt";
 import {ConfigService} from "@nestjs/config";
@@ -105,6 +105,16 @@ export class UserService {
 
     user.username = info.username
     await user.save()
+  }
+
+  async isUserAreFriends(first: Types.ObjectId, second: Types.ObjectId): Promise<boolean> {
+    const firstUser = await this.userModel.findById(first).exec()
+    const secondUser = await this.userModel.findById(second).exec()
+    if(!firstUser || !secondUser)
+      throw new Error('Incorrect users')
+
+    // @ts-ignore
+    return firstUser.friends.includes(second) && secondUser.friends.includes(first)
   }
 
   getJwtToken(chat_id: User["chat_id"]): JwtToken {
