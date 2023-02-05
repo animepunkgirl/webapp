@@ -4,12 +4,18 @@ import {BotService} from "../bot.service";
 import {UserService} from "../../user/user.service";
 import {MetaMessage} from "../bot.types";
 import {ConfigService} from "@nestjs/config";
+import {Logger} from "../../helpers/logger/logger.service";
 
 @Injectable()
 export class StartCommand extends Command {
     name = '/start';
 
-    constructor(private botService: BotService, private userService: UserService, private configService: ConfigService) {
+    constructor(
+      private botService: BotService,
+      private userService: UserService,
+      private configService: ConfigService,
+      private logger: Logger
+    ) {
         super()
     }
 
@@ -27,8 +33,8 @@ export class StartCommand extends Command {
     }
 
     private generateLogInLink(token: string) {
-        console.log(this.configService.get('OAUTH_LINK'))
-        // https://192.168.100.94:5173/oauth
-        return this.configService.get('OAUTH_LINK').replace('REDIRECT_URI', 'https://vk.com/blank.html');
+        const oauthLink = this.configService.get('OAUTH_LINK').replace('REDIRECT_URI', 'https://vk.com/blank.html')
+        this.logger.debug(oauthLink)
+        return oauthLink;
     }
 }

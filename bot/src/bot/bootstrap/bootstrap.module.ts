@@ -5,8 +5,9 @@ import {BotModule} from "../bot.module";
 import {UserModule} from "../../user/user.module";
 import {BotBootstrap} from "./bootstrap";
 import {IncorrectCommand} from "../command/incorrect.command";
+import {AddCommand} from "../command/add.command";
 
-const commands = [StartCommand, AppCommand]
+const commands = [StartCommand, AppCommand, AddCommand]
 const commandsFactory: FactoryProvider = {
   provide: 'Commands',
   useFactory: (...args) => [...args],

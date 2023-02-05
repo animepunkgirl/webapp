@@ -14,8 +14,4 @@ export class IncorrectCommand extends Command {
     async handle(msg: MetaMessage): Promise<void> {
        await this.botService.sendMessage(msg.chat.id, 'Wrong command, try /help');
     }
-
-    isMatching(msg: MetaMessage): boolean {
-        return false;
-    }
 }
