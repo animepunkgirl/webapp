@@ -33,6 +33,13 @@ export class AddCommand extends Command {
         if (!friend) {
           return await this.sendUserNotFoundMessage(chatId)
         }
+        const incomingFriendRequest = await this.friendRequestService.getByUsers(friend._id, user._id)
+        if(incomingFriendRequest) {
+          await this.friendRequestService.accept(incomingFriendRequest._id.toString())
+          await this.botService.sendMessage(chatId, `@${username} has already sent you a friend request, so we added him to your list of friends😊`)
+          return;
+        }
+
         const friendRequest = await this.friendRequestService.create(user._id, friend._id);
         if (friendRequest) {
           await this.sendFriendRequestMadeMessage(chatId, username)
@@ -40,7 +47,7 @@ export class AddCommand extends Command {
         }
       }
     } catch (e) {
-      // TODO: Handle
+
     }
   }
 

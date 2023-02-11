@@ -49,12 +49,18 @@ export class FriendRequestService {
     await friendRequest.remove();
   }
 
+  async getByUsers(from: Types.ObjectId, to: Types.ObjectId) {
+    return this.friendRequestModel.findOne<FriendRequestDocument>({
+      from,
+      to
+    }).exec()
+  }
   async decline(id: string) {
     return this.friendRequestModel.findByIdAndDelete(id)
   }
 
   async getIncomingRequests(userId: Types.ObjectId) {
-    return await this.friendRequestModel.find({
+    return await this.friendRequestModel.find<FriendRequestDocument>({
       to: userId
     }).exec()
   }
