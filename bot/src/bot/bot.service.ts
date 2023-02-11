@@ -5,7 +5,7 @@ import {CallbackQueryListener, MessageListener} from "./bot.types";
 
 @Injectable()
 export class BotService {
-  private bot: TelegramBot = null as unknown as TelegramBot; // Hack to tell TS that bot always initialized
+  private bot: TelegramBot;
 
   initBot(bot: TelegramBot) {
     if (this.bot)
@@ -14,23 +14,19 @@ export class BotService {
     this.bot = bot;
   }
 
-  addMessageListener(callback: MessageListener) {
-    this.bot.on('message', (message, metadata) => {
-      callback(message, metadata)
-    })
+  addMessageListener(listener: MessageListener) {
+    this.bot.on('message', listener)
   }
 
-  addCallbackQueryListener(callback: CallbackQueryListener) {
-    this.bot.on('callback_query', (callback_query) => {
-      callback(callback_query)
-    })
+  addCallbackQueryListener(listener: CallbackQueryListener) {
+    this.bot.on('callback_query', listener)
   }
 
-  async getChat(chatId: TelegramBot.ChatId) {
+  async getChat(chatId: TelegramBot.ChatId): Promise<TelegramBot.Chat> {
     return await this.bot.getChat(chatId)
   }
 
-  async getFileLink(fileId: TelegramBot.File["file_id"]) {
+  async getFileLink(fileId: TelegramBot.File["file_id"]): Promise<string> {
     return await this.bot.getFileLink(fileId)
   }
 
@@ -42,10 +38,12 @@ export class BotService {
     return this.bot.sendMessage(chatId, text, options)
   }
 
-  async sendPhoto(chatId: TelegramBot.ChatId,
+  async sendPhoto(
+    chatId: TelegramBot.ChatId,
                   photo: string | Stream | Buffer,
                   options?: TelegramBot.SendPhotoOptions,
-                  fileOptions?: TelegramBot.FileOptions): Promise<TelegramBot.Message> {
+                  fileOptions?: TelegramBot.FileOptions
+  ): Promise<TelegramBot.Message> {
     return this.bot.sendPhoto(chatId, photo, options, fileOptions);
   }
 
@@ -70,7 +68,7 @@ export class BotService {
     return await this.bot.answerCallbackQuery(options)
   }
 
-  async deleteMessage(chatId: TelegramBot.ChatId, messageId: string) {
+  async deleteMessage(chatId: TelegramBot.ChatId, messageId: string): Promise<boolean> {
     return await this.bot.deleteMessage(chatId, messageId)
   }
 }

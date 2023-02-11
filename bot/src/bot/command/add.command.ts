@@ -5,7 +5,7 @@ import {MetaMessage} from "../bot.types";
 import {UserService} from "../../user/user.service";
 import TelegramBot from "node-telegram-bot-api";
 import {FriendRequestService} from "../../friend-requests/friend-request.service";
-import {NotificationsService} from "../../notifications/notifications.service";
+import {NotifierService} from "../notifier/notifier.service";
 
 @Injectable()
 export class AddCommand extends Command {
@@ -15,7 +15,7 @@ export class AddCommand extends Command {
     private botService: BotService,
     private userService: UserService,
     private friendRequestService: FriendRequestService,
-    private notificationsService: NotificationsService
+    private notificationsService: NotifierService
   ) {
     super()
   }
@@ -34,11 +34,11 @@ export class AddCommand extends Command {
         return await this.sendUserNotFoundMessage(chatId)
       }
       const me = await this.userService.getUserByChatId(chatId)
-      const friendRequest = await this.friendRequestService.create(me._id, user._id);// TODO: Send friend request
+      const friendRequest = await this.friendRequestService.create(me._id, user._id);
       if(friendRequest) {
         await this.sendFriendRequestMadeMessage(chatId, username)
         // TODO: Add username to user model and replace chat_id to username
-        return this.notificationsService.notifyAboutIncomingFriendRequest(me.chat_id.toString(), friendRequest._id, user.chat_id.toString()) // TODO: Swap chat ids after testing
+        return this.notificationsService.notifyAboutIncomingFriendRequest(user.chat_id.toString(), friendRequest._id, user.chat_id.toString()) // TODO: Swap chat ids after testing
       }
     }
     await this.botService.sendMessage(chatId, 'App command')

@@ -179,7 +179,7 @@ export class UserService {
     return result as unknown as InitData;
   }
 
-  private async createUser(chat_id: User["chat_id"]): Promise<UserDocument> {
+  async createUser(chat_id: User["chat_id"]): Promise<UserDocument> {
     const createdUser = new this.userModel({
       chat_id
     })

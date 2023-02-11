@@ -18,7 +18,8 @@ export class BotBootstrap implements OnApplicationBootstrap {
     private incorrectCommand: IncorrectCommand,
     private configService: ConfigService,
     private logger: Logger
-  ) {}
+  ) {
+  }
 
   onApplicationBootstrap(): any {
     this.initBot();

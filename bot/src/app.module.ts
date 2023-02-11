@@ -15,10 +15,12 @@ import {BotBootstrapModule} from "./bot/bootstrap/bootstrap.module";
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>("MONGODB_URI"),
-        dbName: configService.get<string>("MONDODB_NAME")
-      }),
+      useFactory: async (configService: ConfigService) => {
+        console.log(configService.get<string>("MONGODB_URI"))
+        return {
+          uri: configService.get<string>("MONGODB_URI"),
+        }
+      },
       inject: [ConfigService]
     }),
     BotBootstrapModule,

@@ -52,4 +52,11 @@ export class FriendRequestService {
   async decline(id: string) {
     return this.friendRequestModel.findByIdAndDelete(id)
   }
+
+  async getIncomingRequests(userId: User["chat_id"]) {
+    const user = await this.userService.getUserByChatId(userId)
+    return await this.friendRequestModel.find({
+      to: user._id
+    }).exec()
+  }
 }

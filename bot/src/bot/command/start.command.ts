@@ -21,11 +21,15 @@ export class StartCommand extends Command {
 
     async handle(msg: MetaMessage): Promise<void> {
         const chatId = msg.chat.id;
+        const user = await this.userService.getUserByChatId(chatId);
+        if(!user)
+            await this.botService.sendMessage(chatId, 'Sorry, we had some problems on our side, try to /start later :(')
+
+        await this.botService.sendMessage(chatId, 'Welcome to Feeder bot!')
         const token = this.userService.getJwtToken(chatId);
         const oauth = this.generateLogInLink(token)
         const text = `
             Please connect your VK account to our bot
-            Open this link:
             ${oauth}
         `
 

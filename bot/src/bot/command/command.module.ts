@@ -6,7 +6,7 @@ import {FactoryProvider, Module} from "@nestjs/common";
 import {UserModule} from "../../user/user.module";
 import {BotModule} from "../bot.module";
 import {FriendRequestModule} from "../../friend-requests/friend-request.module";
-import {NotificationsModule} from "../../notifications/notifications.module";
+import {NotifierModule} from "../notifier/notifier.module";
 
 const commands = [StartCommand, AppCommand, AddCommand, FriendsCommand]
 const commandsFactory: FactoryProvider = {
@@ -16,7 +16,7 @@ const commandsFactory: FactoryProvider = {
 }
 
 @Module({
-  imports: [BotModule, UserModule, FriendRequestModule, NotificationsModule],
+  imports: [BotModule, UserModule, FriendRequestModule, NotifierModule],
   providers: [
     ...commands,
     commandsFactory
