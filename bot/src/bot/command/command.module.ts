@@ -5,10 +5,11 @@ import {FriendsCommand} from "./friends.command";
 import {FactoryProvider, Module} from "@nestjs/common";
 import {UserModule} from "../../user/user.module";
 import {BotModule} from "../bot.module";
-import {FriendRequestModule} from "../../friend-requests/friend-request.module";
+import {FriendRequestModule} from "../../friend-request/friend-request.module";
 import {NotifierModule} from "../notifier/notifier.module";
+import {RequestsCommand} from "./requests.command";
 
-const commands = [StartCommand, AppCommand, AddCommand, FriendsCommand]
+const commands = [StartCommand, AppCommand, AddCommand, FriendsCommand, RequestsCommand]
 const commandsFactory: FactoryProvider = {
   provide: 'Commands',
   useFactory: (...args) => [...args],

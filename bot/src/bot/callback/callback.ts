@@ -1,8 +1,7 @@
 import {CallbackQuery} from "node-telegram-bot-api";
 
 export abstract class Callback {
-  protected constructor() {
-  }
+  protected constructor() {}
 
   abstract name: string;
 

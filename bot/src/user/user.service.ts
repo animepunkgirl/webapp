@@ -39,6 +39,10 @@ export class UserService {
     return user;
   }
 
+  async getUserById(userId: Types.ObjectId): Promise<UserDocument | null> {
+    return await this.userModel.findById(userId).exec()
+  }
+
   async getUserByToken(token: JwtToken): Promise<UserDocument | null> {
     try {
       const chat_id = this.jwtService.verify(token);
@@ -179,7 +183,7 @@ export class UserService {
     return result as unknown as InitData;
   }
 
-  async createUser(chat_id: User["chat_id"]): Promise<UserDocument> {
+  private async createUser(chat_id: User["chat_id"]): Promise<UserDocument> {
     const createdUser = new this.userModel({
       chat_id
     })

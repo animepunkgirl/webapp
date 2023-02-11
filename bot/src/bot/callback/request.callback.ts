@@ -1,7 +1,7 @@
 import {Callback} from "./callback";
 import TelegramBot from "node-telegram-bot-api";
 import {Injectable} from "@nestjs/common";
-import {FriendRequestService} from "../../friend-requests/friend-request.service";
+import {FriendRequestService} from "../../friend-request/friend-request.service";
 import {BotService} from "../bot.service";
 
 @Injectable()

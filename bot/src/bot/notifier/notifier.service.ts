@@ -9,7 +9,7 @@ export class NotifierService {
     private botService: BotService
   ) {}
 
-  async notifyAboutIncomingFriendRequest(chatId: TelegramBot.ChatId, request_id: Types.ObjectId, from_username: string) {
+  async incomingFriendRequest(chatId: TelegramBot.ChatId, from_username: string, request_id: Types.ObjectId,) {
     await this.botService.sendMessage(chatId, `@${from_username} wants to add you as a friend to send you memes`, {
       reply_markup: {
         inline_keyboard: [

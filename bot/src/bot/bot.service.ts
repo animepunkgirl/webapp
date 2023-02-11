@@ -65,7 +65,11 @@ export class BotService {
   }
 
   async answerCallbackQuery(options: TelegramBot.AnswerCallbackQueryOptions): Promise<boolean> {
-    return await this.bot.answerCallbackQuery(options)
+    try {
+      return await this.bot.answerCallbackQuery(options)
+    } catch (e) {
+      return false;
+    }
   }
 
   async deleteMessage(chatId: TelegramBot.ChatId, messageId: string): Promise<boolean> {

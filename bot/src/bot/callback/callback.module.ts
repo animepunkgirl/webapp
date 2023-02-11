@@ -1,7 +1,7 @@
 import {FactoryProvider, Module} from "@nestjs/common";
 import {RequestCallback} from "./request.callback";
 import {BotModule} from "../bot.module";
-import {FriendRequestModule} from "../../friend-requests/friend-request.module";
+import {FriendRequestModule} from "../../friend-request/friend-request.module";
 import {DeleteCallback} from "./delete.callback";
 import {UserModule} from "../../user/user.module";
 import {NotifierModule} from "../notifier/notifier.module";

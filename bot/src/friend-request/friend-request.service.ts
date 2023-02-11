@@ -1,6 +1,6 @@
 import {Injectable} from "@nestjs/common";
 import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
+import {Model, Types} from "mongoose";
 import {FriendRequest, FriendRequestDocument} from "../schemas/friend-request.schema";
 import {User, UserDocument} from "../schemas/user.schema";
 import {UserService} from "../user/user.service";
@@ -53,10 +53,9 @@ export class FriendRequestService {
     return this.friendRequestModel.findByIdAndDelete(id)
   }
 
-  async getIncomingRequests(userId: User["chat_id"]) {
-    const user = await this.userService.getUserByChatId(userId)
+  async getIncomingRequests(userId: Types.ObjectId) {
     return await this.friendRequestModel.find({
-      to: user._id
+      to: userId
     }).exec()
   }
 }

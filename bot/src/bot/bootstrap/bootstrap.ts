@@ -40,12 +40,12 @@ export class BotBootstrap implements OnApplicationBootstrap {
   private initListeners() {
     this.botService.addMessageListener(async (msg, meta) => {
       this.logger.debug(msg)
-      const metaMessage: MetaMessage = {...msg, ...meta}
+      const message: MetaMessage = {...msg, ...meta}
       for await (const command of this.commands) {
-        if(command.isMatching(metaMessage))
-          return await command.handle(metaMessage);
+        if(command.isMatching(message))
+          return await command.handle(message);
       }
-      await this.incorrectCommand.handle(metaMessage);
+      await this.incorrectCommand.handle(message);
     })
 
     this.botService.addCallbackQueryListener(async (callback_query) => {
