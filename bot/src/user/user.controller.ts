@@ -40,7 +40,7 @@ export class UserController {
     const friendList: Friend[] = []
     for await (const friend of friends) {
       const info = await this.botService.getChat(friend.chat_id)
-      const avatar_url = info.photo ? await this.botService.getFileLink(info.photo.small_file_id) : undefined
+      const avatar_url = await this.botService.getFileLink(info?.photo?.small_file_id)
       friendList.push({
         id: friend.chat_id,
         name: info.first_name!,

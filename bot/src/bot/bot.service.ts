@@ -26,7 +26,10 @@ export class BotService {
     return await this.bot.getChat(chatId)
   }
 
-  async getFileLink(fileId: TelegramBot.File["file_id"]): Promise<string> {
+  async getFileLink(fileId?: TelegramBot.File["file_id"]): Promise<string | null> {
+    if(!fileId)
+      return null;
+
     return await this.bot.getFileLink(fileId)
   }
 

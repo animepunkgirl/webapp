@@ -8,7 +8,6 @@ import {BotService} from "../bot.service";
 import {FriendRequest, FriendRequestDocument} from "../../schemas/friend-request.schema";
 import {Types} from "mongoose";
 
-// TODO: Show list of incoming friend requests
 @Injectable()
 export class RequestsCommand extends Command {
   name ='/requests'
@@ -38,7 +37,7 @@ export class RequestsCommand extends Command {
 
   private async showRequest(chatId: TelegramBot.ChatId, request: FriendRequestDocument) {
     const fromId = new Types.ObjectId(request.from._id)
-    const from = await this.userService.getUserById(new Types.ObjectId(fromId))
+    const from = await this.userService.getUserById(fromId)
     if(!from)
       return;
 
