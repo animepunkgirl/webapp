@@ -1,21 +1,15 @@
-import {FactoryProvider, Module} from "@nestjs/common";
-import {StartCommand} from "../command/start.command";
-import {AppCommand} from "../command/app.command";
-import {BotModule} from "../bot.module";
-import {UserModule} from "../../user/user.module";
+import {Module} from "@nestjs/common";
 import {BotBootstrap} from "./bootstrap";
 import {IncorrectCommand} from "../command/incorrect.command";
-
-const commands = [StartCommand, AppCommand]
-const commandsFactory: FactoryProvider = {
-  provide: 'Commands',
-  useFactory: (...args) => [...args],
-  inject: commands
-}
+import {CommandModule} from "../command/command.module";
+import {BotModule} from "../bot.module";
+import {CallbackModule} from "../callback/callback.module";
 
 @Module({
-  imports: [BotModule, UserModule],
-  providers: [BotBootstrap, ...commands, commandsFactory, IncorrectCommand],
-  exports: [...commands, commandsFactory]
+  imports: [BotModule, CommandModule, CallbackModule],
+  providers: [
+    BotBootstrap,
+    IncorrectCommand,
+  ]
 })
 export class BotBootstrapModule {}

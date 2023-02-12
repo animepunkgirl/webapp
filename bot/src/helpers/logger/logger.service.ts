@@ -29,7 +29,7 @@ export abstract class LoggerBase implements LoggerService {
   }
 
   debug(msg: unknown): void {
-    if (this.isDev)
+    if (!this.isDev)
       return;
 
     console.log(msg)

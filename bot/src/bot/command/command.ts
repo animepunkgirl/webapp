@@ -1,5 +1,5 @@
-import TelegramBot from "node-telegram-bot-api";
 import {MetaMessage} from "../bot.types";
+import {Module} from "@nestjs/common";
 
 export abstract class Command {
     protected constructor() {
@@ -9,7 +9,7 @@ export abstract class Command {
 
     public abstract handle(msg: MetaMessage): Promise<void>;
 
-    public isMatching(msg: TelegramBot.Message): boolean {
+    public isMatching(msg: MetaMessage): boolean {
         return this.name === msg.text;
     }
 }

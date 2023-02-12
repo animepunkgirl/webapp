@@ -5,6 +5,8 @@ import {IncorrectCommand} from "../command/incorrect.command";
 import {ConfigService} from "@nestjs/config";
 import {Logger} from "../../helpers/logger/logger.service";
 import * as TelegramBot from "node-telegram-bot-api";
+import {MetaMessage} from "../bot.types";
+import {Callback} from "../callback/callback";
 
 
 @Injectable()
@@ -12,10 +14,12 @@ export class BotBootstrap implements OnApplicationBootstrap {
   constructor(
     private botService: BotService,
     @Inject('Commands') private commands: Command[],
+    @Inject('Callbacks') private callbacks: Callback[],
     private incorrectCommand: IncorrectCommand,
     private configService: ConfigService,
     private logger: Logger
-  ) {}
+  ) {
+  }
 
   onApplicationBootstrap(): any {
     this.initBot();
@@ -36,11 +40,20 @@ export class BotBootstrap implements OnApplicationBootstrap {
   private initListeners() {
     this.botService.addMessageListener(async (msg, meta) => {
       this.logger.debug(msg)
+      const message: MetaMessage = {...msg, ...meta}
       for await (const command of this.commands) {
-        if(command.isMatching(msg))
-          return await command.handle({ ...msg, ...meta });
+        if(command.isMatching(message))
+          return await command.handle(message);
       }
-      await this.incorrectCommand.handle({ ...msg, ...meta });
+      await this.incorrectCommand.handle(message);
+    })
+
+    this.botService.addCallbackQueryListener(async (callback_query) => {
+      this.logger.debug(callback_query)
+      for await (const callback of this.callbacks) {
+        if(callback.isMatching(callback_query))
+          return await callback.handle(callback_query)
+      }
     })
   }
 }

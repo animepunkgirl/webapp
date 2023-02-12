@@ -1,3 +1,5 @@
+import TelegramBot from "node-telegram-bot-api";
+
 export interface InitData {
   query_id: string,
   user: {
@@ -11,3 +13,9 @@ export interface InitData {
 }
 
 export type JwtToken = string;
+
+export interface Friend {
+  id: TelegramBot.ChatId,
+  name: string,
+  avatar_url?: string
+}
