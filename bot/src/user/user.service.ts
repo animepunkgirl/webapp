@@ -96,6 +96,11 @@ export class UserService {
     }).exec()
   }
 
+  async addFriend(user: UserDocument, friend: UserDocument): Promise<void> {
+    user.friends.push(friend)
+    await user.save()
+  }
+
   async deleteFriend(user: UserDocument, friendId: string): Promise<void> {
     user.friends = user.friends.filter(friend => friend.chat_id.toString() !== friendId)
     const friend = await this.getUserByChatId(parseInt(friendId))
@@ -119,7 +124,7 @@ export class UserService {
     await user.save()
   }
 
-  async isUserAreFriends(first: Types.ObjectId, second: Types.ObjectId): Promise<boolean> {
+  async isUsersAreFriends(first: Types.ObjectId, second: Types.ObjectId): Promise<boolean> {
     const firstUser = await this.userModel.findById(first).exec()
     const secondUser = await this.userModel.findById(second).exec()
     if(!firstUser || !secondUser)

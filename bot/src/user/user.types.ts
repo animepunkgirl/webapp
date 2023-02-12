@@ -17,5 +17,5 @@ export type JwtToken = string;
 export interface Friend {
   id: TelegramBot.ChatId,
   name: string,
-  avatar_url?: string
+  avatar_url: string | null
 }

@@ -20,8 +20,8 @@ export class FriendRequestService {
     if(existedFriendRequest)
       throw new Error('Friend request already exists')
 
-    const isUserAreFriends = await this.userService.isUserAreFriends(from, to);
-    if(isUserAreFriends)
+    const isUsersAreFriends = await this.userService.isUsersAreFriends(from, to);
+    if(isUsersAreFriends)
       throw new Error('Users are friends already')
 
     const friendRequest = new this.friendRequestModel({
@@ -40,12 +40,9 @@ export class FriendRequestService {
     if(!friendRequest)
       return;
 
-    const from = friendRequest.from;
-    const to = friendRequest.to;
-    from.friends.push(to)
-    to.friends.push(from)
-    await to.save();
-    await from.save();
+    await this.userService.addFriend(friendRequest.from, friendRequest.to)
+    await this.userService.addFriend(friendRequest.to, friendRequest.from)
+
     await friendRequest.remove();
   }
 
