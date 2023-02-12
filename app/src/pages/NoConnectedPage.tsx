@@ -2,10 +2,8 @@ import React from 'react';
 import useCopyToClipboard from "../hooks/useCopyToClipboard";
 
 const NoConnectedPage = () => {
-
-
   return (
-    <div className='h-max flex flex-col items-center justify-center text-center bg-secondary'>
+    <div className='container mx-auto p-2 h-screen flex flex-col items-center justify-center text-center bg-secondary'>
       <h1 className='text-xl text-primary'>
         You have not connected VK API to our application.
       </h1>
