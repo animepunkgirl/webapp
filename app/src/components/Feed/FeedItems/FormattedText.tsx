@@ -6,7 +6,7 @@ import ExpandTextButton from "../ExpandTextButton";
 
 interface Props {
   className: string,
-  text: string
+  text?: string
 }
 
 const linkifyOptions: Opts = {
