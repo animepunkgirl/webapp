@@ -37,11 +37,10 @@ const ShareModal = () => {
       await API.Feed.sharePost(shareModal.item, selected, self_send, caption)
       tg.MainButton.hideProgress()
       toast('Post shared!')
-      tg.MainButton.hide()
     } catch (e) {
-      tg.MainButton.hide()
       toast('Something went wrong', { type: 'error' })
     }
+    tg.MainButton.hide()
   }
 
   return (

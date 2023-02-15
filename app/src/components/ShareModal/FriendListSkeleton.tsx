@@ -14,7 +14,6 @@ const FriendListSkeleton = () => {
   );
 };
 
-// Width: 48px;
 const SkeletonItem = () => {
   return (
     <button className='flex flex-col gap-0.5 items-center'>

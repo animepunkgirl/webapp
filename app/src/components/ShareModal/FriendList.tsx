@@ -27,6 +27,7 @@ const FriendList = ({ handleSend }: Props) => {
 
   useEffect(() => {
     const send = () => handleSend(selected, selfSend)
+
     if(!mainButtonText) {
       tg.MainButton.hide()
       return () => {
