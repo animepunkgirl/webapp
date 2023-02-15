@@ -23,8 +23,14 @@ const changeAccessToken = async (telegram_token: string, access_token: string) =
   return response.data;
 }
 
+const getFriends = async () => {
+  const response = await axios.get('/user/friends')
+  return response.data.friends
+}
+
 export default {
   authorize,
   getConnectedSources,
-  changeAccessToken
+  changeAccessToken,
+  getFriends
 }

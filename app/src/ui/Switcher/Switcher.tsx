@@ -2,32 +2,34 @@ import React from 'react';
 import { Switch } from "@headlessui/react";
 
 interface Props {
+  id?: string,
   active: boolean,
   onChange: (active: boolean) => void
 }
 
-const Switcher = ({active, onChange}: Props) => {
+const Switcher = ({id, active, onChange}: Props) => {
 
   const backgroundClassNames = () => {
     const classes = 'relative flex h-5 w-9 items-center rounded-full'
 
     if(active)
-      return ['bg-secondary', classes].join(' ')
+      return ['bg-button', classes].join(' ')
 
     return ['bg-secondary', classes].join(' ')
   }
 
   const toggleClassNames = () => {
-    const classes = 'inline-block h-4 w-4 transform rounded-full transition'
+    const classes = 'inline-block h-4 w-4 transform rounded-full transition bg-buttonText'
 
     if(active)
-      return ['bg-button translate-x-4', classes].join(' ')
+      return ['translate-x-4', classes].join(' ')
 
-    return ['translate-x-1 bg-hint', classes].join(' ')
+    return ['translate-x-1 opacity-50', classes].join(' ')
   }
 
   return (
     <Switch
+      id={id}
       checked={active}
       onChange={onChange}
       className={backgroundClassNames()}

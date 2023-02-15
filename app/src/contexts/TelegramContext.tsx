@@ -1,5 +1,6 @@
 import {createContext, FC, ReactNode, useEffect, useState} from "react";
 import NoTelegramPage from "../pages/NoTelegramPage";
+import {isProd} from "../helpers/vite";
 
 const TelegramContext = createContext<WebApp>({} as WebApp)
 export default TelegramContext;
@@ -13,7 +14,7 @@ export const TelegramProvider: FC<Props> = ({ children }) => {
 
   useEffect(() => {
     if(typeof window !== 'undefined') {
-      if(import.meta.env.PROD) {
+      if(isProd) {
         setTelegram(window.Telegram.WebApp)
       } else {
         // @ts-ignore
