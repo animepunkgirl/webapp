@@ -6,7 +6,7 @@ import ExpandTextButton from "../ExpandTextButton";
 
 interface Props {
   className: string,
-  text: string
+  text?: string
 }
 
 const linkifyOptions: Opts = {
@@ -25,8 +25,8 @@ const getClassName = (className: string, isEnlarged: boolean, isCompact: boolean
 }
 
 const FormattedText = ({ className, text }: Props) => {
-  const [isCompact, setIsCompact] = useState(text.length >= 240)
-  const isEnlarged = text.length <= 140;
+  const [isCompact, setIsCompact] = useState(text?.length >= 240)
+  const isEnlarged = text?.length <= 140;
 
   if(!text)
     return null;

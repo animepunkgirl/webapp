@@ -1,20 +1,22 @@
-import React, {useContext, useEffect} from 'react';
+import React, {ReactNode, useContext, useEffect} from 'react';
 import telegramContext from "../contexts/TelegramContext";
-import {Outlet, useLocation, useNavigate} from "react-router-dom";
 import {useRecoilValue} from "recoil";
 import {isConnectedState} from "../store/user";
 import {Toast} from "../ui/Toast/Toast";
+import ShareModal from "../components/ShareModal/ShareModal";
+import {isProd} from "../helpers/vite";
 
-const TelegramLayout = () => {
+interface Props {
+  children: ReactNode
+}
+
+const AppLayout = ({ children }: Props) => {
   const telegram = useContext(telegramContext)
   const isConnected = useRecoilValue(isConnectedState)
-  const navigate = useNavigate()
 
   useEffect(() => {
-    if(import.meta.env.PROD) {
+    if(isProd) {
       telegram.ready()
-      telegram.BackButton.show()
-      telegram.BackButton.onClick(() => navigate(-1))
     }
   }, [telegram])
 
@@ -24,10 +26,11 @@ const TelegramLayout = () => {
 
   return (
     <>
-      <Outlet />
+      {children}
+      <ShareModal />
       <Toast />
     </>
   );
 };
 
-export default TelegramLayout;
+export default AppLayout;

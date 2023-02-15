@@ -2,15 +2,22 @@ import React from 'react';
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline'
 import {Post} from "../../../types/feed.types";
 import API from "../../../api";
+import {useSetRecoilState} from "recoil";
+import {ShareModalState} from "../../../store/app";
 
 interface Props {
   item: Post
 }
 
 const Share = ({ item }: Props) => {
+  const openShareModal = useSetRecoilState(ShareModalState)
 
   const handleClick = async () => {
-    console.log(await API.Feed.sendPostToBot(item))
+    // await API.Feed.sendPostToBot(item)
+    openShareModal({
+      isShown: true,
+      item: item
+    })
   }
 
   return (

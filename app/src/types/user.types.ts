@@ -10,3 +10,9 @@ export interface InitData {
   },
   auth_date: string,
 }
+
+export interface Friend {
+  id: number | string,
+  name: string,
+  avatar_url: string | null
+}
