@@ -9,8 +9,8 @@ const getFeed = async (offset_key: string = '') => {
   return response.data;
 }
 
-const sharePost = async (post: Post, friends: Friend["id"][], caption?: string) => {
-  const response = await axios.post(`/feed/share`, { post, friends, caption })
+const sharePost = async (post: Post, friends: Friend["id"][], self_send: boolean, caption?: string) => {
+  const response = await axios.post(`/feed/share`, { post, friends, self_send, caption })
 
   return response.data;
 }

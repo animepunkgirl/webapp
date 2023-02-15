@@ -8,7 +8,7 @@ const FriendListSkeleton = () => {
   }, [])
 
   return (
-    <div className='flex gap-0.5 animate-pulse'>
+    <div className='flex gap-2 animate-pulse'>
       {[...Array(itemsCount)].map((e, i) => <SkeletonItem key={i} />)}
     </div>
   );

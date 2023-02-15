@@ -4,7 +4,7 @@ import API from "../api";
 
 export const initDataState = atom<InitData>({
   key: 'initDataState',
-  default: null as unknown as InitData // It's never empty because user always authorized
+  default: null! // It's never empty because user always authorized
 })
 
 export const isConnectedState = atom({

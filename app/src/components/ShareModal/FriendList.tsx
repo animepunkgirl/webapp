@@ -5,15 +5,17 @@ import FriendItem from "./FriendItem";
 import {Friend} from "../../types/user.types";
 import TelegramContext from "../../contexts/TelegramContext";
 import {isProd} from "../../helpers/vite";
+import MeItem from "./MeItem";
 
 interface Props {
-  handleSend: (selected: Friend["id"][]) => void;
+  handleSend: (selected: Friend["id"][], self_send: boolean) => void;
 }
 
 const FriendList = ({ handleSend }: Props) => {
   const friends = useRecoilValue(friendListState)
   const tg = useContext(TelegramContext)
   const [selected, setSelected] = useState<Friend["id"][]>([])
+  const [selfSend, setSelfSend] = useState<boolean>(false)
   const [mainButtonText, setMainButtonText] = useState('')
 
   const handleClick = (id: Friend["id"]) => {
@@ -24,7 +26,7 @@ const FriendList = ({ handleSend }: Props) => {
   }
 
   useEffect(() => {
-    const send = () => handleSend(selected)
+    const send = () => handleSend(selected, selfSend)
     if(!mainButtonText) {
       tg.MainButton.hide()
       return () => {
@@ -42,8 +44,13 @@ const FriendList = ({ handleSend }: Props) => {
 
   useEffect(() => {
     if(!selected.length) {
-      setMainButtonText('')
-      return
+      if(!selfSend) {
+        setMainButtonText('')
+        return
+      } else {
+        setMainButtonText('Send to your chat')
+        return
+      }
     }
 
     if(selected.length === 1) {
@@ -55,10 +62,14 @@ const FriendList = ({ handleSend }: Props) => {
     }
 
     return setMainButtonText('Send to friends')
-  }, [selected])
+  }, [selected, selfSend])
 
   return (
-    <div className='flex gap-0.5'>
+    <div className='flex gap-2'>
+      <MeItem
+        isSelected={selfSend}
+        onClick={() => setSelfSend(prev => !prev)}
+      />
       {friends.map(friend => <FriendItem
         key={friend.id}
         friend={friend}
