@@ -23,7 +23,7 @@ const ShareModal = () => {
     tg.MainButton.hide()
   }
 
-  const handleSend = async (selected: Friend["id"][]) => {
+  const handleSend = async (selected: Friend["id"][], self_send: boolean) => {
     if(!shareModal.item)
       return;
 
@@ -33,14 +33,14 @@ const ShareModal = () => {
       isShown: false
     }))
     try {
-      await API.Feed.sharePost(shareModal.item, selected, captionRef?.current?.value)
+      const caption = captionRef?.current?.value
+      await API.Feed.sharePost(shareModal.item, selected, self_send, caption)
       tg.MainButton.hideProgress()
       toast('Post shared!')
-      tg.MainButton.hide()
     } catch (e) {
-      tg.MainButton.hide()
       toast('Something went wrong', { type: 'error' })
     }
+    tg.MainButton.hide()
   }
 
   return (

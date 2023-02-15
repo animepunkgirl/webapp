@@ -8,13 +8,12 @@ const FriendListSkeleton = () => {
   }, [])
 
   return (
-    <div className='flex gap-0.5 animate-pulse'>
+    <div className='flex gap-2 animate-pulse'>
       {[...Array(itemsCount)].map((e, i) => <SkeletonItem key={i} />)}
     </div>
   );
 };
 
-// Width: 48px;
 const SkeletonItem = () => {
   return (
     <button className='flex flex-col gap-0.5 items-center'>
