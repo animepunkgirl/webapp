@@ -7,6 +7,7 @@ import {Logger} from "../../helpers/logger/logger.service";
 import * as TelegramBot from "node-telegram-bot-api";
 import {MetaMessage} from "../bot.types";
 import {Callback} from "../callback/callback";
+import {QueryService} from "../query/query.service";
 
 
 @Injectable()
@@ -17,7 +18,8 @@ export class BotBootstrap implements OnApplicationBootstrap {
     @Inject('Callbacks') private callbacks: Callback[],
     private incorrectCommand: IncorrectCommand,
     private configService: ConfigService,
-    private logger: Logger
+    private logger: Logger,
+    private queryService: QueryService
   ) {
   }
 
@@ -50,9 +52,12 @@ export class BotBootstrap implements OnApplicationBootstrap {
 
     this.botService.addCallbackQueryListener(async (callback_query) => {
       this.logger.debug(callback_query)
+      const handler = await this.queryService.getHandler(callback_query.data)
+      if(!handler)
+        return;
       for await (const callback of this.callbacks) {
-        if(callback.isMatching(callback_query))
-          return await callback.handle(callback_query)
+        if(callback.isMatching(handler))
+          return await callback.handle(callback_query);
       }
     })
   }

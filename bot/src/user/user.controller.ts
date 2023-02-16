@@ -1,4 +1,4 @@
-import {Body, Controller, Get, HttpException, HttpStatus, Post, Query} from "@nestjs/common";
+import {Body, Controller, Get, HttpException, HttpStatus, Post, Query, CACHE_MANAGER, Inject} from "@nestjs/common";
 import {UserService} from "./user.service";
 import {AuthorizeDto} from "./dto/authorize.dto";
 import {ChangeTokenDto} from "./dto/change-token.dto";
@@ -7,12 +7,14 @@ import {User} from "../schemas/user.schema";
 import {FriendsDto} from "./dto/friends.dto";
 import {BotService} from "../bot/bot.service";
 import {Friend} from "./user.types";
+import { Cache } from 'cache-manager';
 
 @Controller('user')
 export class UserController {
   constructor(
     private userService: UserService,
-    private botService: BotService
+    private botService: BotService,
+    @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
   @Get()

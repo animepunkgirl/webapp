@@ -4,10 +4,11 @@ import TelegramBot from "node-telegram-bot-api";
 import {BotService} from "../bot.service";
 import {UserService} from "../../user/user.service";
 import {NotifierService} from "../notifier/notifier.service";
+import {CallbackList} from "./callback-list.enum";
 
 @Injectable()
 export class DeleteCallback extends Callback {
-  name = 'delete'
+  name = CallbackList.DELETE;
 
   constructor(
     private botService: BotService,
