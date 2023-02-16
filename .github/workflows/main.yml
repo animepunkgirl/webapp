@@ -1,0 +1,46 @@
+name: Deploy on Production
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'app/**'
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: unnecessary
+          
+      - name: Adding Known Hosts
+        run: ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }}  >> ~/.ssh/known_hosts
+        
+      - name: Deploy on Production
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            pm2 stop webapp
+            pm2 delete webapp
+            cd /var/www
+            rm -rf webapp
+            mkdir webapp
+            cd /webapp
+            git init
+            git remote add origin https://github.com/animepunkgirl/webapp.git
+            git pull origin master
+            cd /bot
+            echo ${{ secrets.BACK_ENV }} > .env
+            npm ci 
+            npm run build
+            pm2 start ./dist/main.js --name webapp --port 8095
+            cd ../app
+            echo ${{ secrets.FRONT_ENV }} > .env
+            npm ci
+            npm run build
