@@ -3,12 +3,14 @@ import TelegramBot from "node-telegram-bot-api";
 import {Injectable} from "@nestjs/common";
 import {FriendRequestService} from "../../friend-request/friend-request.service";
 import {BotService} from "../bot.service";
+import {FriendRequestData, QueryService} from "../query/query.service";
+import {CallbackList} from "./callback-list.enum";
 
 @Injectable()
 export class RequestCallback extends Callback {
-  name = 'request'
+  name = CallbackList.REQUEST;
 
-  constructor(private friendRequestService: FriendRequestService, private botService: BotService) {
+  constructor(private friendRequestService: FriendRequestService, private botService: BotService, private queryService: QueryService) {
     super();
   }
 
@@ -17,9 +19,14 @@ export class RequestCallback extends Callback {
     if(!callbackQuery.data)
       return;
 
-    const data = callbackQuery.data.substring(this.name.length+1).split('_');
-    const action = data[0]
-    const requestId = data[1]
+    const data = await this.queryService.parseData<FriendRequestData>(callbackQuery.data)
+
+    if(!data)
+      return;
+
+    const action = data.action;
+    const requestId = data.friend_request;
+
     if(!action || !requestId)
       return;
 

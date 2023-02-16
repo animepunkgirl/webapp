@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "colors": "^1.4.0",
-    "linkify-react": "^4.1.0",
-    "linkifyjs": "^4.1.0"
-  }
-}

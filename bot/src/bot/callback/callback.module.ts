@@ -5,8 +5,9 @@ import {FriendRequestModule} from "../../friend-request/friend-request.module";
 import {DeleteCallback} from "./delete.callback";
 import {UserModule} from "../../user/user.module";
 import {NotifierModule} from "../notifier/notifier.module";
+import {QueryModule} from "../query/query.module";
 
-const callbacks = [RequestCallback, DeleteCallback]
+export const callbacks = [RequestCallback, DeleteCallback]
 const callbacksFactory: FactoryProvider = {
   provide: 'Callbacks',
   useFactory: (...args) => [...args],
@@ -14,8 +15,8 @@ const callbacksFactory: FactoryProvider = {
 }
 
 @Module({
-  imports: [BotModule, UserModule, FriendRequestModule, NotifierModule],
+  imports: [BotModule, UserModule, FriendRequestModule, NotifierModule, QueryModule],
   providers: [...callbacks, callbacksFactory],
-  exports: [callbacksFactory]
+  exports: [callbacksFactory, ...callbacks]
 })
 export class CallbackModule {}
