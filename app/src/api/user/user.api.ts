@@ -1,6 +1,5 @@
 import axios from "../_axios";
 import {AuthorizeDto} from "./user.dtos";
-import {ConnectedSources, Source} from "../../types/user.types";
 
 const authorize = async (init_data: string): Promise<AuthorizeDto> => {
     const response = await axios.get<AuthorizeDto>(`/user/`, {
@@ -10,12 +9,6 @@ const authorize = async (init_data: string): Promise<AuthorizeDto> => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
 
     return response.data
-}
-
-const getConnectedSources = async (): Promise<ConnectedSources> => {
-  const response = await axios.get<ConnectedSources>('/user/connections')
-
-  return response.data;
 }
 
 const changeAccessToken = async (telegram_token: string, access_token: string) => {
@@ -30,7 +23,6 @@ const getFriends = async () => {
 
 export default {
   authorize,
-  getConnectedSources,
   changeAccessToken,
   getFriends
 }

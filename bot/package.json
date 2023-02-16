@@ -34,7 +34,6 @@
     "colors": "^1.4.0",
     "mongoose": "^6.8.1",
     "node-telegram-bot-api": "^0.60.0",
-    "pm2": "^5.2.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",

@@ -25,8 +25,8 @@ const getClassName = (className: string, isEnlarged: boolean, isCompact: boolean
 }
 
 const FormattedText = ({ className, text }: Props) => {
-  const [isCompact, setIsCompact] = useState(text?.length >= 240)
-  const isEnlarged = text?.length <= 140;
+  const [isCompact, setIsCompact] = useState(text ? text.length >= 240 : false)
+  const isEnlarged = text ? text.length <= 140 : false;
 
   if(!text)
     return null;
