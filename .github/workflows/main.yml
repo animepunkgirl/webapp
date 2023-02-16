@@ -35,10 +35,10 @@ jobs:
             git pull origin main
             cd ./bot
             echo ${{ secrets.BACK_ENV }} > .env
-            npm ci 
+            npm install 
             npm run build
             pm2 start ./dist/main.js --name webapp --port 8095
             cd ../app
             echo ${{ secrets.FRONT_ENV }} > .env
-            npm ci
+            npm install
             npm run build
