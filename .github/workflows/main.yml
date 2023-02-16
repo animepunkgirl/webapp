@@ -29,11 +29,11 @@ jobs:
             cd /var/www
             rm -rf webapp
             mkdir webapp
-            cd /webapp
+            cd ./webapp
             git init
             git remote add origin https://github.com/animepunkgirl/webapp.git
-            git pull origin master
-            cd /bot
+            git pull origin main
+            cd ./bot
             echo ${{ secrets.BACK_ENV }} > .env
             npm ci 
             npm run build
